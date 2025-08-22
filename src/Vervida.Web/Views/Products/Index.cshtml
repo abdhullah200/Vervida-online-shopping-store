@@ -1,0 +1,52 @@
+@model List<Product>
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <select class="form-select" id="categoryFilter">
+                <option value="">All Categories</option>
+                @foreach (var c in ViewBag.Categories)
+                {
+                    <option value="@c" selected="@(c == ViewBag.SelectedCategory)">@c</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-8">
+            <input type="text" id="searchBox" class="form-control" placeholder="Search by title..." value="@ViewBag.Search" />
+        </div>
+    </div>
+
+    <div class="row card-3d">
+        @foreach (var p in Model)
+        {
+            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="card h-100 shadow" data-id="@p.Id">
+                    <img src="@p.Image" class="card-img-top" alt="@p.Title" style="height: 200px; object-fit: contain;">
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title">@p.Title</h6>
+                        <p class="mt-auto mb-1">$@p.Price</p>
+                        <small class="text-muted">@p.Category</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Cart Sidebar -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title neon">Your Cart</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body" id="cartBody">
+    <!-- filled via JS -->
+  </div>
+</div>
+
+@section Scripts {
+<script src="~/js/products.js" asp-append-version="true"></script>
+}
