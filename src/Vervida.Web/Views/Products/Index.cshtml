@@ -1,39 +1,75 @@
+@using Microsoft.AspNetCore.Html
 @model List<Product>
 @{
     ViewData["Title"] = "Products";
+    var categories = ViewBag.Categories as List<string> ?? new List<string>();
+    var selectedCategory = ViewBag.SelectedCategory as string;
+    var search = ViewBag.Search as string;
 }
 
-<div class="container-fluid mt-4">
+<div class="container py-4">
+    <h2 class="mb-4">Products</h2>
     <div class="row mb-3">
         <div class="col-md-4">
-            <select class="form-select" id="categoryFilter">
+            <select id="categoryFilter" class="form-select">
                 <option value="">All Categories</option>
-                @foreach (var c in ViewBag.Categories)
+                @foreach (var cat in categories)
                 {
-                    <option value="@c" selected="@(c == ViewBag.SelectedCategory)">@c</option>
+                    if (cat == selectedCategory)
+                    {
+                        <option value="@cat" selected>@cat</option>
+                    }
+                    else
+                    {
+                        <option value="@cat">@cat</option>
+                    }
                 }
             </select>
         </div>
         <div class="col-md-8">
-            <input type="text" id="searchBox" class="form-control" placeholder="Search by title..." value="@ViewBag.Search" />
+            <input id="searchBox" class="form-control" placeholder="Search products..." value="@search" />
         </div>
     </div>
-
-    <div class="row card-3d">
-        @foreach (var p in Model)
-        {
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="card h-100 shadow" data-id="@p.Id">
-                    <img src="@p.Image" class="card-img-top" alt="@p.Title" style="height: 200px; object-fit: contain;">
-                    <div class="card-body d-flex flex-column">
-                        <h6 class="card-title">@p.Title</h6>
-                        <p class="mt-auto mb-1">$@p.Price</p>
-                        <small class="text-muted">@p.Category</small>
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+    else if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-warning">No products available.</div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card card-3d h-100" data-id="@product.Id">
+                        <img src="@product.Image" class="card-img-top" alt="@product.Title" style="max-height:200px;object-fit:contain;">
+                        <div class="card-body">
+                            <h5 class="card-title">@Highlight(product.Title, search ?? string.Empty)</h5>
+                            <p class="card-text">@product.Description</p>
+                            <p class="card-text"><strong>$@product.Price</strong></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-secondary">@product.Category</span>
+                                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); addToCart(@product.Id)">Add to cart</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+        <nav>
+            <ul class="pagination justify-content-center">
+                @for (int i = 1; i <= Math.Ceiling((double)ViewBag.TotalCount / 10); i++)
+                {
+                    <li class="page-item @(i == (ViewBag.Page ?? 1) ? "active" : "")">
+                        <a class="page-link" href="?category=@selectedCategory&search=@search&page=@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 </div>
 
 <!-- Cart Sidebar -->
@@ -49,4 +85,14 @@
 
 @section Scripts {
 <script src="~/js/products.js" asp-append-version="true"></script>
+}
+
+@functions {
+    public static HtmlString Highlight(string text, string search)
+    {
+        if (string.IsNullOrWhiteSpace(search) || string.IsNullOrWhiteSpace(text)) return new HtmlString(text);
+        var regex = new System.Text.RegularExpressions.Regex($"({System.Text.RegularExpressions.Regex.Escape(search)})", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        var highlighted = regex.Replace(text, "<mark>$1</mark>");
+        return new HtmlString(highlighted);
+    }
 }

@@ -1,11 +1,35 @@
 (() => {
-    const apiBase = '/Products';
-    let cart = JSON.parse(localStorage.getItem('vervida-cart') || '[]');
+  // use local API controller for JSON product data
+  const apiBase = '/api/LocalProductsApi';
+  let cart = JSON.parse(localStorage.getItem('vervida-cart') || '[]');
 
-    const refreshCartCount = () => {
-        document.getElementById('cart-count').textContent = cart.reduce((s, i) => s + i.qty, 0);
-    };
+  // normalize ids to numbers and hydrate missing price/title from local API
+  cart = cart.map(i => ({ ...i, id: Number(i.id) }));
+
+  const refreshCartCount = () => {
+    const el = document.getElementById('cart-count');
+    if (el) el.textContent = String(cart.reduce((s, i) => s + (Number(i.qty) || 0), 0));
+  };
+
+  async function hydrateCart() {
+    for (const item of cart) {
+      if (item.price == null || item.title == null) {
+        try {
+          const res = await fetch(`${apiBase}/products/${item.id}`);
+          if (!res.ok) continue;
+          const p = await res.json();
+          item.price = Number(p.price ?? p.Price ?? 0);
+          item.title = p.title ?? p.Title ?? item.title ?? ('Product ' + item.id);
+        } catch (e) {
+          // ignore
+        }
+      }
+    }
+    localStorage.setItem('vervida-cart', JSON.stringify(cart));
     refreshCartCount();
+  }
+
+  hydrateCart();
 
     // Category & search navigation
     const go = () => {
@@ -20,15 +44,17 @@
     document.getElementById('categoryFilter').addEventListener('change', go);
     document.getElementById('searchBox').addEventListener('input', debounce(go, 400));
 
-    // Product click → modal
-    document.querySelectorAll('.card[data-id]').forEach(card => {
-        card.addEventListener('click', async () => {
-            const id = card.dataset.id;
-            const res = await fetch(`${apiBase}/Details/${id}`);
-            const p = await res.json();
-            openModal(p);
-        });
+  // Product click → modal (fetch JSON from local API)
+  document.querySelectorAll('.card[data-id]').forEach(card => {
+    card.addEventListener('click', async (e) => {
+      // ignore clicks that came from buttons inside the card
+      if (e.target && (e.target.tagName === 'BUTTON' || e.target.closest('button'))) return;
+      const id = card.dataset.id;
+      const res = await fetch(`${apiBase}/products/${id}`);
+      const p = await res.json();
+      openModal(p);
     });
+  });
 
     function openModal(p) {
         const modal = new bootstrap.Modal(document.createElement('div'));
@@ -54,26 +80,34 @@
         modal._element.addEventListener('hidden.bs.modal', () => modal._element.remove());
     }
 
-    window.addToCart = id => {
-        const existing = cart.find(i => i.id === id);
-        if (existing) existing.qty++; else cart.push({ id, qty: 1 });
-        localStorage.setItem('vervida-cart', JSON.stringify(cart));
-        refreshCartCount();
-        renderCart();
-    };
-
-    function renderCart() {
-        const body = document.getElementById('cartBody');
-        if (!cart.length) { body.innerHTML = '<p class="text-center">Empty.</p>'; return; }
-        let total = 0;
-        body.innerHTML = cart.map(item => {
-            total += item.qty * 10; // price placeholder
-            return `<div class="d-flex justify-content-between mb-2">
-                      <span>Product ${item.id} × ${item.qty}</span>
-                      <span>$${(item.qty * 10).toFixed(2)}</span>
-                    </div>`;
-        }).join('') + `<hr><strong>Total: $${total.toFixed(2)}</strong>`;
+  window.addToCart = async id => {
+    // fetch product details to get price/title
+    try {
+      const res = await fetch(`${apiBase}/products/${id}`);
+      const p = await res.json();
+      const existing = cart.find(i => i.id === id);
+      if (existing) existing.qty++; else cart.push({ id, qty: 1, price: p.price, title: p.title });
+      localStorage.setItem('vervida-cart', JSON.stringify(cart));
+      refreshCartCount();
+      renderCart();
+    } catch (err) {
+      console.error('Failed to add to cart', err);
     }
+  };
+
+  function renderCart() {
+    const body = document.getElementById('cartBody');
+    if (!cart.length) { body.innerHTML = '<p class="text-center">Empty.</p>'; return; }
+    let total = 0;
+    body.innerHTML = cart.map(item => {
+      const price = Number(item.price ?? 0);
+      total += item.qty * price;
+      return `<div class="d-flex justify-content-between mb-2">
+            <span>${item.title ?? ('Product ' + item.id)} × ${item.qty}</span>
+            <span>$${(item.qty * price).toFixed(2)}</span>
+          </div>`;
+    }).join('') + `<hr><strong>Total: $${total.toFixed(2)}</strong>`;
+  }
 
     document.getElementById('cartSidebar').addEventListener('show.bs.offcanvas', renderCart);
 
