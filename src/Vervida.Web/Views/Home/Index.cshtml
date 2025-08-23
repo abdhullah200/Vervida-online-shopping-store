@@ -2,57 +2,429 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="container py-5 text-center">
-    <h1 class="display-4 neon">Welcome</h1>
-    <p class="lead">Explore the demo product store.</p>
+<div class="container-fluid py-5">
+    <!-- Hero Section -->
+    <section class="hero-section py-5 text-center">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6 order-lg-1 order-2">
+                    <div class="hero-content">
+                        <h1 class="display-4 neon mb-4">Welcome to the Future</h1>
+                        <p class="lead mb-4">Experience next-generation shopping with immersive 3D technology, AI-powered recommendations, and seamless user experience.</p>
+                        
+                        <!-- Action Buttons -->
+                        <div class="hero-buttons mb-5">
+                            <a asp-controller="Products" asp-action="Index" class="btn btn-primary btn-lg me-3 mb-3">
+                                <i class="bi bi-rocket-takeoff me-2"></i>Explore Products
+                            </a>
+                            <button class="btn btn-outline-light btn-lg mb-3" data-bs-toggle="modal" data-bs-target="#demoModal">
+                                <i class="bi bi-play-circle me-2"></i>Watch Demo
+                            </button>
+                        </div>
 
-    <div id="three-root" style="width:100%;max-width:720px;margin:2rem auto; height:420px;">
-        <!-- Three.js canvas is created dynamically -->
+                        <!-- Stats Cards -->
+                        <div class="row g-3 stats-section">
+                            <div class="col-4">
+                                <div class="stat-card text-center p-3">
+                                    <div class="stat-number neon h4 mb-1">1000+</div>
+                                    <div class="stat-label small text-muted">Products</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-card text-center p-3">
+                                    <div class="stat-number neon h4 mb-1">50k+</div>
+                                    <div class="stat-label small text-muted">Happy Customers</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-card text-center p-3">
+                                    <div class="stat-number neon h4 mb-1">24/7</div>
+                                    <div class="stat-label small text-muted">Support</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 order-lg-2 order-1 mb-5 mb-lg-0">
+                    <!-- Enhanced Three.js Canvas -->
+                    <div class="three-container position-relative">
+                        <div id="three-root" class="mx-auto" style="width:100%;max-width:600px;height:500px;">
+                            <!-- Three.js canvas is created dynamically -->
+                        </div>
+                        
+                        <!-- Interactive Elements -->
+                        <div class="three-controls position-absolute bottom-0 start-50 translate-middle-x mb-3">
+                            <button class="btn btn-sm btn-outline-light me-2" id="cubeColorBtn">
+                                <i class="bi bi-palette"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-light me-2" id="cubeSpeedBtn">
+                                <i class="bi bi-speedometer2"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-light" id="cubeResetBtn">
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 neon mb-3">Why Choose Vervida?</h2>
+                <p class="lead">Cutting-edge technology meets exceptional user experience</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100 p-4 text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-lightning-charge display-4 neon"></i>
+                        </div>
+                        <h5 class="mb-3">Lightning Fast</h5>
+                        <p class="text-muted">Optimized performance with cutting-edge technology for instant loading and smooth interactions.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100 p-4 text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-shield-lock display-4 neon"></i>
+                        </div>
+                        <h5 class="mb-3">Secure & Safe</h5>
+                        <p class="text-muted">Bank-level security with end-to-end encryption protecting your data and transactions.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100 p-4 text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-robot display-4 neon"></i>
+                        </div>
+                        <h5 class="mb-3">AI-Powered</h5>
+                        <p class="text-muted">Smart recommendations and personalized shopping experience powered by advanced AI algorithms.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-card h-100 p-4 text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="bi bi-phone display-4 neon"></i>
+                        </div>
+                        <h5 class="mb-3">Mobile First</h5>
+                        <p class="text-muted">Responsive design that works perfectly on all devices with touch-optimized interactions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section class="demo-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="display-6 neon mb-4">Experience the Magic</h2>
+                    <p class="lead mb-4">Hover over the elements to see our advanced 3D effects in action. Every interaction is designed to delight and engage.</p>
+                    
+                    <!-- Interactive Demo Cards -->
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="demo-card card-3d">
+                                <div class="card h-100 text-center p-3">
+                                    <i class="bi bi-box display-4 neon mb-2"></i>
+                                    <h6>3D Transform</h6>
+                                    <small class="text-muted">Hover me!</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="demo-card card-3d">
+                                <div class="card h-100 text-center p-3">
+                                    <i class="bi bi-stars display-4 neon mb-2"></i>
+                                    <h6>Glow Effects</h6>
+                                    <small class="text-muted">Amazing!</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <!-- Animated Statistics -->
+                    <div class="stats-grid">
+                        <div class="stat-item text-center p-4 mb-3">
+                            <div class="stat-circle mx-auto mb-3" style="width: 100px; height: 100px; border-radius: 50%; background: conic-gradient(var(--clr-primary) 95%, rgba(255,255,255,0.2) 0); display: flex; align-items: center; justify-content: center;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--clr-dark); display: flex; align-items: center; justify-content: center;">
+                                    <span class="h4 neon mb-0">95%</span>
+                                </div>
+                            </div>
+                            <h6>Customer Satisfaction</h6>
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="mini-stat text-center p-3">
+                                    <div class="h5 neon mb-1">4.9★</div>
+                                    <small>Rating</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mini-stat text-center p-3">
+                                    <div class="h5 neon mb-1">24h</div>
+                                    <small>Delivery</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Demo Modal -->
+<div class="modal fade" id="demoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title neon">
+                    <i class="bi bi-play-circle me-2"></i>Vervida Demo
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center p-5">
+                <div class="demo-placeholder" style="height: 300px; background: var(--gradient-primary); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                    <div>
+                        <i class="bi bi-play-circle display-1 mb-3"></i>
+                        <h4>Interactive Demo</h4>
+                        <p>Experience the future of shopping</p>
+                    </div>
+                </div>
+                <p class="text-muted">This would contain an interactive demo video or 3D experience showcasing our platform's capabilities.</p>
+            </div>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     <script>
         (function() {
-            // Basic three.js rotating cube - works with three.js loaded in layout
+            // Enhanced three.js rotating cube with interactions
             try {
                 const container = document.getElementById('three-root');
+                if (!container) return;
+
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
                 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
                 renderer.setSize(container.clientWidth, container.clientHeight);
+                renderer.setClearColor(0x000000, 0);
                 container.appendChild(renderer.domElement);
 
-                const geometry = new THREE.BoxGeometry(2, 2, 2);
-                const material = new THREE.MeshStandardMaterial({ color: 0x00f5ff, roughness: 0.4, metalness: 0.6 });
-                const cube = new THREE.Mesh(geometry, material);
+                // Enhanced geometry with multiple shapes
+                const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
+                const cubeMaterial = new THREE.MeshStandardMaterial({ 
+                    color: 0x00f5ff, 
+                    roughness: 0.1, 
+                    metalness: 0.8,
+                    emissive: 0x001122,
+                    transparent: true,
+                    opacity: 0.9
+                });
+                const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
                 scene.add(cube);
 
-                const light = new THREE.DirectionalLight(0xffffff, 1);
-                light.position.set(5, 10, 7.5);
-                scene.add(light);
+                // Add wireframe overlay
+                const wireframe = new THREE.WireframeGeometry(cubeGeometry);
+                const line = new THREE.LineSegments(wireframe, new THREE.LineBasicMaterial({ 
+                    color: 0x00f5ff, 
+                    transparent: true, 
+                    opacity: 0.3 
+                }));
+                cube.add(line);
+
+                // Enhanced lighting
+                const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+                scene.add(ambientLight);
+
+                const directionalLight = new THREE.DirectionalLight(0x00f5ff, 1);
+                directionalLight.position.set(5, 10, 7.5);
+                scene.add(directionalLight);
+
+                const pointLight = new THREE.PointLight(0x7b2cbf, 0.8, 100);
+                pointLight.position.set(-10, -10, -10);
+                scene.add(pointLight);
 
                 camera.position.z = 6;
 
+                // Animation variables
+                let rotationSpeed = 0.01;
+                let colors = [0x00f5ff, 0x7b2cbf, 0xff6b35, 0x4cc9f0, 0x2ec4b6];
+                let currentColorIndex = 0;
+
                 function animate() {
                     requestAnimationFrame(animate);
-                    cube.rotation.x += 0.01;
-                    cube.rotation.y += 0.013;
+                    cube.rotation.x += rotationSpeed;
+                    cube.rotation.y += rotationSpeed * 1.3;
+                    cube.rotation.z += rotationSpeed * 0.7;
+                    
+                    // Floating animation
+                    cube.position.y = Math.sin(Date.now() * 0.001) * 0.5;
+                    
                     renderer.render(scene, camera);
                 }
                 animate();
 
+                // Interactive controls
+                document.getElementById('cubeColorBtn')?.addEventListener('click', () => {
+                    currentColorIndex = (currentColorIndex + 1) % colors.length;
+                    const newColor = colors[currentColorIndex];
+                    cubeMaterial.color.setHex(newColor);
+                    directionalLight.color.setHex(newColor);
+                });
+
+                document.getElementById('cubeSpeedBtn')?.addEventListener('click', () => {
+                    rotationSpeed = rotationSpeed === 0.01 ? 0.05 : rotationSpeed === 0.05 ? 0.1 : 0.01;
+                });
+
+                document.getElementById('cubeResetBtn')?.addEventListener('click', () => {
+                    cube.rotation.set(0, 0, 0);
+                    cube.position.set(0, 0, 0);
+                    rotationSpeed = 0.01;
+                    currentColorIndex = 0;
+                    cubeMaterial.color.setHex(0x00f5ff);
+                    directionalLight.color.setHex(0x00f5ff);
+                });
+
                 // Resize handling
-                new ResizeObserver(() => {
+                const resizeObserver = new ResizeObserver(() => {
                     const w = container.clientWidth;
                     const h = container.clientHeight;
                     renderer.setSize(w, h);
                     camera.aspect = w / h;
                     camera.updateProjectionMatrix();
-                }).observe(container);
+                });
+                resizeObserver.observe(container);
+
+                // Mouse interaction
+                let mouseX = 0, mouseY = 0;
+                container.addEventListener('mousemove', (event) => {
+                    const rect = container.getBoundingClientRect();
+                    mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                    mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+                    
+                    cube.rotation.x += (mouseY * 0.1 - cube.rotation.x) * 0.1;
+                    cube.rotation.y += (mouseX * 0.1 - cube.rotation.y) * 0.1;
+                });
+
             } catch (e) {
-                console.warn('three.js not available or failed to init', e);
+                console.warn('Three.js not available or failed to init', e);
+                const fallback = document.createElement('div');
+                fallback.className = 'fallback-content d-flex align-items-center justify-content-center h-100 text-center';
+                fallback.innerHTML = `
+                    <div>
+                        <i class="bi bi-box display-1 neon mb-3"></i>
+                        <h4>3D Experience</h4>
+                        <p class="text-muted">Interactive 3D content loads here</p>
+                    </div>
+                `;
+                container.appendChild(fallback);
             }
+
+            // Animate stats on scroll
+            const animateStats = () => {
+                const statNumbers = document.querySelectorAll('.stat-number');
+                statNumbers.forEach(stat => {
+                    const target = parseInt(stat.textContent);
+                    if (target && !stat.classList.contains('animated')) {
+                        stat.classList.add('animated');
+                        animateNumber(stat, target);
+                    }
+                });
+            };
+
+            function animateNumber(element, target) {
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current) + (element.textContent.includes('+') ? '+' : '');
+                }, 40);
+            }
+
+            // Trigger animations on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateStats();
+                    }
+                });
+            });
+
+            observer.observe(document.querySelector('.stats-section'));
         })();
     </script>
+
+    <style>
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-card, .feature-card, .demo-card .card, .mini-stat {
+            background: var(--gradient-card);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--clr-glass-border);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover, .feature-card:hover, .mini-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.2);
+            border-color: rgba(0, 245, 255, 0.5);
+        }
+
+        .feature-icon i {
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon i {
+            transform: scale(1.2) rotateY(360deg);
+        }
+
+        .three-container {
+            filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.3));
+        }
+
+        .three-controls .btn {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @@media (max-width: 768px) {
+            .hero-section {
+                min-height: auto;
+                padding: 2rem 0;
+            }
+            
+            .display-4 {
+                font-size: 2.5rem;
+            }
+            
+            #three-root {
+                height: 300px !important;
+            }
+        }
+    </style>
 }

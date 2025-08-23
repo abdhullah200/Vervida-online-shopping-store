@@ -18,13 +18,60 @@ body {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  position: relative;
+  z-index: 2; /* ensure cards sit above particle/floating layers */
 }
 .card-3d .card:hover {
   transform: rotateY(8deg) scale(1.03);
+}
+
+/* Support when .card-3d is applied to the same element as .card (some templates use this) */
+.card.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  position: relative;
+  z-index: 2; /* ensure cards sit above particle/floating layers */
+}
+.card.card-3d:hover {
+  transform: rotateY(8deg) scale(1.03);
+}
+
+/* Make sure card contents are readable on dark background */
+.card .card-body, .card.card-3d .card-body {
+  color: #ffffff;
+}
+
+/* Ensure images are visible and contained */
+.card .card-img-top, .card.card-3d .card-img-top {
+  background-color: rgba(255,255,255,0.02);
+  object-fit: contain;
+  max-height: 200px;
+}
+
+/* Floating elements should not cover content */
+.floating-elements {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure main content sits above floating visuals */
+main, .container, .row {
+  position: relative;
+  z-index: 1;
 }
 
 .neon {
   text-shadow: 0 0 5px var(--clr-primary), 0 0 10px var(--clr-primary), 0 0 20px var(--clr-primary);
 }
 
-/*# sourceMappingURL=vervida.css.map */
+
