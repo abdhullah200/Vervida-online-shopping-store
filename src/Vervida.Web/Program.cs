@@ -1,5 +1,6 @@
-using Vervida.Web.Services;
+// ...existing code...
 using Refit;
+using Vervida.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,11 @@ var productApiBase = builder.Environment.IsDevelopment()
     : new Uri("https://fakestoreapi.com");
 
 builder.Services.AddRefitClient<IProductApi>()
-    .ConfigureHttpClient(c => c.BaseAddress = productApiBase);
+    .ConfigureHttpClient(c =>
+    {
+        c.BaseAddress = productApiBase;
+        c.Timeout = TimeSpan.FromSeconds(10);
+    });
 
 var app = builder.Build();
 
@@ -25,7 +30,6 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-    app.UseHttpsRedirection();
 }
 
 app.UseStaticFiles();
@@ -34,8 +38,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Map API controllers
+app.MapControllers();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+// ...existing code...

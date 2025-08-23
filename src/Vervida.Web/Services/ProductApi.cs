@@ -1,6 +1,8 @@
 using Refit;
+using Vervida.Web.Models;
 
 namespace Vervida.Web.Services;
+
 public interface IProductApi
 {
     [Get("/products")]
