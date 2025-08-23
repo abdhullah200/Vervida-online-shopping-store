@@ -5,12 +5,79 @@
     // Cart management
     let cart = JSON.parse(sessionStorage.getItem('vervida_cart') || '[]');
     let products = [];
+    let currentModal = null;
 
     // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
         initializeProducts();
         updateCartDisplay();
+        setupModalEventHandlers();
     });
+
+    function setupModalEventHandlers() {
+        // Handle modal cleanup when hidden
+        document.addEventListener('hidden.bs.modal', function (e) {
+            if (e.target.id === 'productModal' || e.target.id === 'demoModal') {
+                // Clean up modal from DOM
+                setTimeout(() => {
+                    if (e.target && e.target.parentNode) {
+                        e.target.parentNode.removeChild(e.target);
+                    }
+                    currentModal = null;
+                }, 300);
+            }
+        });
+
+        // Prevent backdrop clicks from causing issues
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-backdrop')) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeCurrentModal();
+            }
+        });
+
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && currentModal) {
+                closeCurrentModal();
+            }
+        });
+    }
+
+    function closeCurrentModal() {
+        if (currentModal) {
+            try {
+                const modalInstance = bootstrap.Modal.getInstance(currentModal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                } else {
+                    // Fallback: manually hide modal
+                    currentModal.classList.remove('show');
+                    currentModal.style.display = 'none';
+                    const backdrop = document.querySelector('.modal-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = '';
+                    document.body.style.paddingRight = '';
+                }
+            } catch (error) {
+                console.warn('Error closing modal:', error);
+                // Force cleanup
+                const backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) backdrop.remove();
+                if (currentModal && currentModal.parentNode) {
+                    currentModal.parentNode.removeChild(currentModal);
+                }
+                document.body.classList.remove('modal-open');
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+                currentModal = null;
+            }
+        }
+    }
 
     function initializeProducts() {
         // Setup search functionality
@@ -116,26 +183,37 @@
     }
 
     function showLoadingModal() {
-        const existingModal = document.getElementById('productModal');
-        if (existingModal) existingModal.remove();
+        cleanupExistingModals();
 
         const modal = createModal('productModal', 'Loading...', `
             <div class="text-center py-5">
                 <div class="spinner-border text-primary mb-3" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <p>Loading product details...</p>
+                <p style="color: #ffffff !important;">Loading product details...</p>
             </div>
         `);
         
         document.body.appendChild(modal);
-        const modalInstance = new bootstrap.Modal(modal);
-        modalInstance.show();
+        currentModal = modal;
+        
+        try {
+            const modalInstance = new bootstrap.Modal(modal, {
+                backdrop: 'static',
+                keyboard: true
+            });
+            modalInstance.show();
+        } catch (error) {
+            console.warn('Bootstrap Modal error:', error);
+            // Fallback modal display
+            modal.classList.add('show');
+            modal.style.display = 'block';
+            document.body.classList.add('modal-open');
+        }
     }
 
     function displayProductModal(product) {
-        const existingModal = document.getElementById('productModal');
-        if (existingModal) existingModal.remove();
+        cleanupExistingModals();
 
         const stars = generateStarRating(product.rating?.rate || 0);
         
@@ -146,17 +224,17 @@
                          style="max-height: 400px; object-fit: contain; width: 100%; background: rgba(255,255,255,0.05);">
                 </div>
                 <div class="col-md-6">
-                    <h3 class="neon mb-3">${product.title}</h3>
+                    <h3 class="neon mb-3" style="color: #ffffff !important;">${product.title}</h3>
                     <div class="mb-3">
                         <span class="badge bg-primary me-2">${product.category}</span>
                     </div>
                     <div class="mb-3">
                         <div class="d-flex align-items-center">
                             <div class="stars me-2">${stars}</div>
-                            <small class="text-muted">(${product.rating?.count || 0} reviews)</small>
+                            <small style="color: #ffffff !important;">(${product.rating?.count || 0} reviews)</small>
                         </div>
                     </div>
-                    <p class="lead mb-4">${product.description}</p>
+                    <p class="lead mb-4" style="color: #ffffff !important;">${product.description}</p>
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h4 class="text-primary mb-0 neon">$${product.price.toFixed(2)}</h4>
                         <div class="input-group" style="max-width: 120px;">
@@ -174,9 +252,21 @@
 
         const modal = createModal('productModal', product.title, modalContent, 'modal-lg');
         document.body.appendChild(modal);
+        currentModal = modal;
         
-        const modalInstance = new bootstrap.Modal(modal);
-        modalInstance.show();
+        try {
+            const modalInstance = new bootstrap.Modal(modal, {
+                backdrop: true,
+                keyboard: true
+            });
+            modalInstance.show();
+        } catch (error) {
+            console.warn('Bootstrap Modal error:', error);
+            // Fallback modal display
+            modal.classList.add('show');
+            modal.style.display = 'block';
+            document.body.classList.add('modal-open');
+        }
         
         // Make quantity change function globally available
         window.changeQuantity = function(change) {
@@ -190,7 +280,7 @@
         window.addToCartFromModal = function(productId) {
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
             addToCart(productId, quantity);
-            modalInstance.hide();
+            closeCurrentModal();
         };
     }
 
@@ -214,20 +304,60 @@
     }
 
     function showErrorModal(message) {
-        const existingModal = document.getElementById('productModal');
-        if (existingModal) existingModal.remove();
+        cleanupExistingModals();
 
         const modal = createModal('productModal', 'Error', `
             <div class="text-center py-4">
                 <i class="bi bi-exclamation-triangle display-1 text-danger mb-3"></i>
-                <p class="lead">${message}</p>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <p class="lead" style="color: #ffffff !important;">${message}</p>
+                <button type="button" class="btn btn-secondary" onclick="closeCurrentModal()">Close</button>
             </div>
         `);
         
         document.body.appendChild(modal);
-        const modalInstance = new bootstrap.Modal(modal);
-        modalInstance.show();
+        currentModal = modal;
+        
+        try {
+            const modalInstance = new bootstrap.Modal(modal, {
+                backdrop: true,
+                keyboard: true
+            });
+            modalInstance.show();
+        } catch (error) {
+            console.warn('Bootstrap Modal error:', error);
+            modal.classList.add('show');
+            modal.style.display = 'block';
+            document.body.classList.add('modal-open');
+        }
+    }
+
+    function cleanupExistingModals() {
+        // Remove any existing modals
+        const existingModals = document.querySelectorAll('.modal');
+        existingModals.forEach(modal => {
+            try {
+                const instance = bootstrap.Modal.getInstance(modal);
+                if (instance) {
+                    instance.dispose();
+                }
+            } catch (e) {
+                // Ignore errors during cleanup
+            }
+            if (modal.parentNode) {
+                modal.parentNode.removeChild(modal);
+            }
+        });
+
+        // Remove any orphaned backdrops
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(backdrop => backdrop.remove());
+
+        // Reset body styles
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+        
+        currentModal = null;
     }
 
     function createModal(id, title, content, size = '') {
@@ -235,15 +365,17 @@
         modalDiv.className = 'modal fade';
         modalDiv.id = id;
         modalDiv.tabIndex = -1;
+        modalDiv.setAttribute('aria-labelledby', id + 'Label');
+        modalDiv.setAttribute('aria-hidden', 'true');
         
         modalDiv.innerHTML = `
             <div class="modal-dialog ${size} modal-dialog-centered">
-                <div class="modal-content" style="background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2);">
-                    <div class="modal-header border-bottom border-secondary">
-                        <h5 class="modal-title neon">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title neon" id="${id}Label" style="color: #ffffff !important;">
                             <i class="bi bi-box-seam me-2"></i>${title}
                         </h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        <button type="button" class="btn-close btn-close-white" aria-label="Close" onclick="closeCurrentModal()"></button>
                     </div>
                     <div class="modal-body">
                         ${content}
@@ -254,6 +386,9 @@
         
         return modalDiv;
     }
+
+    // Make closeCurrentModal globally available
+    window.closeCurrentModal = closeCurrentModal;
 
     // Cart functionality
     window.addToCart = function(productId, quantity = 1) {
@@ -321,8 +456,8 @@
                 cartBody.innerHTML = `
                     <div class="text-center py-5">
                         <i class="bi bi-cart display-1 text-muted mb-3"></i>
-                        <h5 class="text-muted">Your cart is empty</h5>
-                        <p class="text-muted">Add some products to get started!</p>
+                        <h5 style="color: #ffffff !important;">Your cart is empty</h5>
+                        <p style="color: #ffffff !important;">Add some products to get started!</p>
                     </div>
                 `;
             } else {

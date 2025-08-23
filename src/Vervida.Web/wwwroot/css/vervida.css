@@ -10,8 +10,30 @@
 body {
   font-family: "Inter", sans-serif;
   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-  color: #ffffff;
+  color: #ffffff !important;
   min-height: 100vh;
+}
+
+/* Fix modal backdrop issues */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-backdrop.show {
+  opacity: 0.7;
+}
+
+/* Ensure modals are properly styled */
+.modal {
+  z-index: 1055;
+}
+
+.modal.show {
+  display: block !important;
+}
+
+.modal-dialog {
+  z-index: 1056;
 }
 
 /* Enhanced Card Styles */
@@ -60,7 +82,7 @@ body {
 
 .card .card-text,
 .card.card-3d .card-text {
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: #ffffff !important;  /* Changed from rgba(255, 255, 255, 0.9) to full white */
   font-size: 0.9rem;
   line-height: 1.5;
   margin-bottom: 1rem;
@@ -135,27 +157,79 @@ body {
   box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
 }
 
-/* Form Controls */
+/* Form Controls - Enhanced for better UI */
 .form-control,
 .form-select {
   background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 0.75rem 1rem;
   transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-control:focus,
 .form-select:focus {
   background: rgba(255, 255, 255, 0.15) !important;
-  border-color: var(--clr-primary);
-  box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+  border-color: var(--clr-primary) !important;
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.3), 0 0 0 0.2rem rgba(0, 245, 255, 0.25);
   color: #ffffff !important;
+  outline: none;
 }
 
 .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 400;
+}
+
+/* Enhanced select dropdown styling */
+.form-select {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9IiNmZmZmZmYiIGNsYXNzPSJiaSBiaS1jaGV2cm9uLWRvd24iIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMS42NDYgNC42NDZhLjUuNSAwIDAgMSAuNzA4IDBsNiA2YS41LjUgMCAwIDEgMCAuNzA4bC02IDZhLjUuNSAwIDAgMS0uNzA4LS43MDhMNy4yOTMgOGwtNS42NDctNS42NDZhLjUuNSAwIDAgMSAwLS43MDh6Ii8+PC9zdmc+");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.form-select:hover {
+  border-color: rgba(0, 245, 255, 0.5) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Custom select option styling for better contrast */
+.form-select option {
+  background-color: #1a1a2e !important;
+  color: #ffffff !important;
+  padding: 0.5rem;
+  border: none;
+}
+
+.form-select option:hover,
+.form-select option:focus,
+.form-select option:checked {
+  background-color: var(--clr-primary) !important;
+  color: #000000 !important;
+}
+
+/* Search input enhancements */
+#searchBox {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 25px;
+  padding: 0.75rem 1.25rem;
+  padding-left: 2.5rem;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9IiNmZmZmZmYiIGNsYXNzPSJiaSBiaS1zZWFyY2giIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZD0ibTExLjc0MiAxMC4zNDQgNi41MjYgNi41MjZhLjUuNSAwIDAgMS0uNzA4LjcwOGwtNi41MjYtNi41MjZDOS43MTggMTEuNjYzIDkuMDQ1IDEyIDguMjUgMTJhNS43NSA1Ljc1IDAgMSAxIDAtMTEuNSA1Ljc1IDUuNzUgMCAwIDEgMy40OTIgMTAuMzQ0ek04LjI1IDEwLjc1YTQuMjUgNC4yNSAwIDEgMCAwLTguNSA0LjI1IDQuMjUgMCAwIDAgMCA4LjV6Ii8+PC9zdmc+");
+  background-repeat: no-repeat;
+  background-position: left 1rem center;
+  background-size: 16px 16px;
+}
+
+#searchBox:focus {
+  padding-left: 2.5rem;
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.3), 0 0 0 0.2rem rgba(0, 245, 255, 0.25);
 }
 
 /* Navbar Enhancements */
@@ -203,11 +277,11 @@ footer h6 {
 }
 
 footer .text-muted {
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: #ffffff !important;  /* Changed from rgba(255, 255, 255, 0.7) to full white */
 }
 
 footer a {
-  color: rgba(255, 255, 255, 0.8) !important;
+  color: #ffffff !important;  /* Changed from rgba(255, 255, 255, 0.8) to full white */
   text-decoration: none;
   transition: all 0.3s ease;
 }
@@ -217,22 +291,103 @@ footer a:hover {
   text-shadow: 0 0 5px rgba(0, 245, 255, 0.5);
 }
 
-/* Modal and Offcanvas Styling */
+/* Modal and Offcanvas Styling - Enhanced */
+.modal {
+  z-index: 1055 !important;
+}
+
+.modal-backdrop {
+  z-index: 1050 !important;
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(3px);
+}
+
+.modal-backdrop.show {
+  opacity: 0.8 !important;
+}
+
 .modal-content,
 .offcanvas {
   background: rgba(10, 10, 10, 0.95) !important;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 .modal-header,
 .offcanvas-header {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.5rem;
+}
+
+.modal-body,
+.offcanvas-body {
+  color: #ffffff !important;
+  padding: 1.5rem;
+}
+
+.modal-body p,
+.modal-body .lead,
+.offcanvas-body p {
+  color: #ffffff !important;
 }
 
 .offcanvas-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Enhanced close button styling */
+.btn-close,
+.btn-close-white {
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  opacity: 0.8;
+  padding: 0.5rem;
+  margin: -0.5rem -0.5rem -0.5rem auto;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: #ffffff !important;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-close::before,
+.btn-close-white::before {
+  content: "×";
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.btn-close:hover,
+.btn-close-white:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background-color: rgba(220, 53, 69, 0.2);
+  border: 1px solid rgba(220, 53, 69, 0.5);
+}
+
+.btn-close:focus,
+.btn-close-white:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(0, 245, 255, 0.25);
+  opacity: 1;
+}
+
+.btn-close:active,
+.btn-close-white:active {
+  transform: scale(0.95);
 }
 
 /* Pagination */
@@ -276,6 +431,31 @@ footer a:hover {
   color: #ffc107 !important;
 }
 
+/* Text color fixes */
+.text-muted {
+  color: #ffffff !important;  /* Override all text-muted to white */
+}
+
+.lead {
+  color: #ffffff !important;
+}
+
+p {
+  color: #ffffff !important;
+}
+
+small {
+  color: #ffffff !important;
+}
+
+/* Specific feature section text */
+.feature-card p,
+.feature-card small,
+.stat-label,
+.demo-card small {
+  color: #ffffff !important;
+}
+
 /* Neon Effect */
 .neon {
   text-shadow: 0 0 5px var(--clr-primary), 
@@ -308,6 +488,27 @@ mark {
   border-radius: 3px;
 }
 
+/* Demo section specific fixes */
+.demo-placeholder {
+  background: var(--gradient-primary);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000 !important;
+}
+
+.demo-placeholder h4,
+.demo-placeholder p {
+  color: #000 !important;
+}
+
+/* Stats section text */
+.stats-grid h6,
+.stats-grid small {
+  color: #ffffff !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .card-3d .card:hover,
@@ -336,4 +537,33 @@ mark {
 /* Apply fade-in animation to cards */
 .card-3d {
   animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Fix for proper modal handling */
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out;
+  transform: translate(0, -50px);
+}
+
+.modal.show .modal-dialog {
+  transform: none;
+}
+
+/* Ensure proper z-index stacking */
+.modal-backdrop.fade {
+  opacity: 0;
+}
+
+.modal-backdrop.show {
+  opacity: 0.7;
+}
+
+/* Additional text fixes for specific elements */
+.container p,
+.container .lead,
+.container small,
+.row p,
+.row .lead,
+.row small {
+  color: #ffffff !important;
 }
