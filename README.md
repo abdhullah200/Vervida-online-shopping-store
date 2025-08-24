@@ -161,13 +161,6 @@ The application features **21 premium products** across 4 categories:
 - Add/remove items with visual feedback
 - Checkout preparation (integration ready)
 
-## Contact & Support
-
-For questions, suggestions, or support:
-- **In-app contact**: Visit `/Home/Contact` for the contact form
-- **Development issues**: Check the troubleshooting section above
-- **Feature requests**: See the roadmap for planned improvements
-
 ---
 
 **Vervida** - Premium online shopping experience with modern web technologies.
