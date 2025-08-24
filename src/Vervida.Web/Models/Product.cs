@@ -5,6 +5,8 @@ public record Product(
     string Category,
     string Image,
     string Description,
-    Rating Rating);
+    Rating Rating,
+    decimal? OriginalPrice = null,
+    int Stock = 0);
 
 public record Rating(decimal Rate, int Count);

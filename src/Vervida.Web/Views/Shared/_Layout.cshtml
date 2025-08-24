@@ -26,7 +26,8 @@
         <nav class="navbar navbar-expand-sm navbar-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
-                    <i class="bi bi-gem me-2"></i>Vervida
+                    <i class="bi bi-gem me-2"></i>
+                    <span class="neon">Vervida</span>
                 </a>
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -52,19 +53,20 @@
                         </li>
                     </ul>
                     
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <button id="themeToggle" class="btn btn-outline-light btn-sm me-2">
-                                <i class="bi bi-palette"></i>
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="btn btn-outline-light position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar">
-                                <i class="bi bi-cart3"></i>
-                                <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0</span>
-                            </button>
-                        </li>
-                    </ul>
+                    <div class="d-flex align-items-center">
+                        <!-- Cart Button -->
+                        <button class="btn btn-outline-light position-relative me-3" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar">
+                            <i class="bi bi-cart3"></i>
+                            <span id="cartBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">
+                                0
+                            </span>
+                        </button>
+                        
+                        <!-- Theme Toggle -->
+                        <button id="themeToggle" class="btn btn-outline-light" title="Change Theme">
+                            <i class="bi bi-palette"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -78,37 +80,37 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <h5><i class="bi bi-gem me-2"></i>Vervida</h5>
-                    <p style="color: #ffffff !important;">Experience the future of shopping with cutting-edge technology and seamless user experience.</p>
+                    <h5 class="neon mb-3">Vervida</h5>
+                    <p class="text-muted">Premium online shopping experience with cutting-edge technology and exceptional service.</p>
                     <div class="d-flex gap-3">
-                        <a href="#" class="text-decoration-none"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="text-decoration-none"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-decoration-none"><i class="bi bi-linkedin"></i></a>
-                        <a href="#" class="text-decoration-none"><i class="bi bi-github"></i></a>
+                        <a href="#" class="text-muted hover-primary"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-muted hover-primary"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-muted hover-primary"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-muted hover-primary"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
                 <div class="col-md-2 mb-4">
-                    <h6>Shop</h6>
+                    <h6 class="mb-3">Quick Links</h6>
                     <ul class="list-unstyled">
-                        <li><a asp-controller="Products" asp-action="Index">All Products</a></li>
-                        <li><a asp-controller="Products" asp-action="Index" asp-route-category="electronics">Electronics</a></li>
-                        <li><a asp-controller="Products" asp-action="Index" asp-route-category="clothing">Clothing</a></li>
-                        <li><a asp-controller="Products" asp-action="Index" asp-route-category="jewelery">Jewelry</a></li>
+                        <li><a href="#" class="text-muted">About Us</a></li>
+                        <li><a href="#" class="text-muted">Contact</a></li>
+                        <li><a href="#" class="text-muted">Support</a></li>
+                        <li><a href="#" class="text-muted">FAQ</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2 mb-4">
-                    <h6>Company</h6>
+                    <h6 class="mb-3">Categories</h6>
                     <ul class="list-unstyled">
-                        <li><a asp-controller="Home" asp-action="Index">About Us</a></li>
-                        <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
-                        <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
-                        <li><a href="#">Terms</a></li>
+                        <li><a href="#" class="text-muted">Electronics</a></li>
+                        <li><a href="#" class="text-muted">Clothing</a></li>
+                        <li><a href="#" class="text-muted">Jewelry</a></li>
+                        <li><a href="#" class="text-muted">Accessories</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <h6>Stay Connected</h6>
-                    <p style="color: #ffffff !important;">Subscribe to get updates on new products and exclusive offers.</p>
-                    <div class="input-group mb-3">
+                    <h6 class="mb-3">Newsletter</h6>
+                    <p class="text-muted">Stay updated with our latest products and offers.</p>
+                    <div class="input-group">
                         <input type="email" class="form-control" placeholder="Your email">
                         <button class="btn btn-primary" type="button">Subscribe</button>
                     </div>
@@ -117,10 +119,12 @@
             <hr class="border-secondary">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="mb-0" style="color: #ffffff !important;">&copy; @DateTime.Now.Year Vervida. All rights reserved.</p>
+                    <p class="text-muted mb-0">&copy; 2024 Vervida. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p class="mb-0" style="color: #ffffff !important;">Made with <i class="bi bi-heart-fill text-danger"></i> for the future</p>
+                    <a href="#" class="text-muted me-3">Privacy Policy</a>
+                    <a href="#" class="text-muted me-3">Terms of Service</a>
+                    <a href="#" class="text-muted">Cookies</a>
                 </div>
             </div>
         </div>
@@ -176,10 +180,21 @@
             
             if (backToTop) {
                 backToTop.addEventListener('click', function() {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 300) {
+                        backToTop.style.display = 'block';
+                        backToTop.style.opacity = '1';
+                    } else {
+                        backToTop.style.opacity = '0';
+                        setTimeout(() => {
+                            if (window.pageYOffset <= 300) {
+                                backToTop.style.display = 'none';
+                            }
+                        }, 300);
+                    }
                 });
             }
 
@@ -199,44 +214,33 @@
                 // Remove all modals
                 const allModals = document.querySelectorAll('.modal');
                 allModals.forEach(modal => {
-                    try {
-                        const instance = bootstrap.Modal.getInstance(modal);
-                        if (instance) {
-                            instance.dispose();
-                        }
-                    } catch (e) {
-                        console.log('Modal instance cleanup:', e);
+                    const bsModal = bootstrap.Modal.getInstance(modal);
+                    if (bsModal) {
+                        bsModal.hide();
                     }
-                    if (modal.parentNode) {
-                        modal.parentNode.removeChild(modal);
-                    }
+                    modal.remove();
                 });
-
-                // Remove all backdrops
-                const backdrops = document.querySelectorAll('.modal-backdrop');
-                backdrops.forEach(backdrop => backdrop.remove());
 
                 // Reset body
                 document.body.classList.remove('modal-open');
                 document.body.style.overflow = '';
                 document.body.style.paddingRight = '';
-                document.body.removeAttribute('data-bs-overflow');
-                document.body.removeAttribute('data-bs-padding-right');
+
+                // Remove backdrops
+                const backdrops = document.querySelectorAll('.modal-backdrop');
+                backdrops.forEach(backdrop => backdrop.remove());
             };
 
             // Show emergency button when modal opens
             const observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     if (mutation.type === 'childList') {
+                        const modals = document.querySelectorAll('.modal.show');
                         const emergencyBtn = document.getElementById('emergencyCloseBtn');
-                        const openModal = document.querySelector('.modal.show');
-                        
-                        if (emergencyBtn) {
-                            if (openModal) {
-                                emergencyBtn.style.display = 'block';
-                            } else {
-                                emergencyBtn.style.display = 'none';
-                            }
+                        if (modals.length > 0 && emergencyBtn) {
+                            emergencyBtn.style.display = 'block';
+                        } else if (emergencyBtn) {
+                            emergencyBtn.style.display = 'none';
                         }
                     }
                 });
@@ -249,52 +253,26 @@
 
             // Handle any existing modals
             setTimeout(() => {
-                const existingModals = document.querySelectorAll('.modal');
-                existingModals.forEach(modal => {
-                    // Add force close to all close buttons
-                    const closeButtons = modal.querySelectorAll('[data-bs-dismiss="modal"], .btn-close, .modal-header .btn-close');
-                    closeButtons.forEach(button => {
-                        button.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            window.forceCloseAllModals();
-                        });
-                    });
-
-                    // Handle backdrop clicks
-                    modal.addEventListener('click', function(e) {
-                        if (e.target === modal || e.target.classList.contains('modal-backdrop')) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            window.forceCloseAllModals();
-                        }
-                    });
-                });
+                const existingModals = document.querySelectorAll('.modal.show');
+                const emergencyBtn = document.getElementById('emergencyCloseBtn');
+                if (existingModals.length > 0 && emergencyBtn) {
+                    emergencyBtn.style.display = 'block';
+                }
             }, 100);
 
             // Handle escape key globally
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
-                    const openModal = document.querySelector('.modal.show');
-                    if (openModal) {
-                        e.preventDefault();
-                        window.forceCloseAllModals();
-                    }
+                    window.forceCloseAllModals();
                 }
             });
 
             // Global modal cleanup on any modal event
             document.addEventListener('hidden.bs.modal', function(e) {
                 setTimeout(() => {
-                    const backdrops = document.querySelectorAll('.modal-backdrop');
-                    backdrops.forEach(backdrop => backdrop.remove());
-                    
-                    if (!document.querySelector('.modal.show')) {
-                        document.body.classList.remove('modal-open');
-                        document.body.style.overflow = '';
-                        document.body.style.paddingRight = '';
-                        document.body.removeAttribute('data-bs-overflow');
-                        document.body.removeAttribute('data-bs-padding-right');
+                    const remainingModals = document.querySelectorAll('.modal.show');
+                    if (remainingModals.length === 0) {
+                        window.forceCloseAllModals();
                     }
                 }, 100);
             });
@@ -302,15 +280,18 @@
             // Add click handler to any remaining backdrop
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('modal-backdrop')) {
-                    e.preventDefault();
-                    e.stopPropagation();
                     window.forceCloseAllModals();
                 }
             });
+
+            // Initialize cart update
+            if (typeof updateCartDisplay === 'function') {
+                updateCartDisplay();
+            }
         });
     </script>
 
-    <!-- Additional Styles for better modal handling -->
+    <!-- Additional Styles for better modal and cart handling -->
     <style>
         /* Ensure modals are properly styled */
         .modal {
@@ -320,6 +301,31 @@
         .modal-backdrop {
             --bs-backdrop-zindex: 1050;
             background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        /* Cart z-index fixes - ensure cart is above navbar */
+        .offcanvas {
+            z-index: 1080 !important;
+        }
+        
+        .offcanvas.show {
+            z-index: 1080 !important;
+        }
+        
+        .offcanvas-backdrop {
+            z-index: 1075 !important;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        /* Ensure navbar is below cart */
+        .navbar {
+            z-index: 1030 !important;
+        }
+        
+        /* Cart button should be clickable */
+        .navbar .btn {
+            z-index: 1031 !important;
+            position: relative;
         }
         
         /* Fix close button styling */
@@ -351,18 +357,7 @@
             box-shadow: 0 0 0 0.25rem rgba(0, 245, 255, 0.25);
             opacity: 1;
         }
-        
-        /* Ensure proper stacking */
-        .offcanvas {
-            z-index: 1045;
         }
-        
-        .navbar {
-            z-index: 1030;
-        }
-        
-        /* Better mobile responsiveness */
-            
     </style>
 </body>
 </html>
