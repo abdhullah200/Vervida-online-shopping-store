@@ -72,19 +72,111 @@
     }
 </div>
 
-<!-- Cart Sidebar -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title neon">Your Cart</h5>
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-  </div>
-  <div class="offcanvas-body" id="cartBody">
-    <!-- filled via JS -->
-  </div>
-</div>
-
 @section Scripts {
 <script src="~/js/products.js" asp-append-version="true"></script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchBox = document.getElementById('searchBox');
+    const categoryFilter = document.getElementById('categoryFilter');
+    
+    function performSearch() {
+        const searchTerm = searchBox?.value || '';
+        const category = categoryFilter?.value || '';
+        
+        const url = new URL(window.location);
+        
+        if (searchTerm) {
+            url.searchParams.set('search', searchTerm);
+        } else {
+            url.searchParams.delete('search');
+        }
+        
+        if (category) {
+            url.searchParams.set('category', category);
+        } else {
+            url.searchParams.delete('category');
+        }
+        
+        url.searchParams.delete('page');
+        window.location.href = url.toString();
+    }
+    
+    // Search on Enter key
+    if (searchBox) {
+        searchBox.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
+    
+    // Search on category change
+    if (categoryFilter) {
+        categoryFilter.addEventListener('change', performSearch);
+    }
+    
+    // Make performSearch globally available
+    window.performSearch = performSearch;
+});
+</script>
+
+<style>
+
+.offcanvas {
+    z-index: 1080 !important;
+}
+
+.offcanvas.show {
+    z-index: 1080 !important;
+}
+
+.offcanvas-backdrop {
+    z-index: 1075 !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+
+.navbar {
+    z-index: 1030 !important;
+}
+
+
+.offcanvas .offcanvas-footer {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+}
+
+
+.offcanvas .btn-close-white {
+    filter: brightness(1.2);
+    opacity: 0.9;
+}
+
+.offcanvas .btn-close-white:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+
+.card[data-id] {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.card[data-id]:hover {
+    transform: translateY(-2px);
+}
+
+
+.card .btn {
+    position: relative;
+    z-index: 10;
+}
+</style>
 }
 
 @functions {

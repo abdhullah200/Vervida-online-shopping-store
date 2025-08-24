@@ -1,5 +1,4 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿
 
 a.navbar-brand {
   white-space: normal;
@@ -40,10 +39,10 @@ button.accept-policy {
 }
 
 .footer {
-  /* previously absolute footer caused large empty space; make it flow with content */
+  
   position: static;
   width: 100%;
   padding: 1rem 0;
   text-align: center;
-  /* remove forced nowrap and line-height so footer doesn't reserve extra vertical space */
+
 }

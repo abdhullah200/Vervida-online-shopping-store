@@ -124,8 +124,7 @@
     }
 
     function loadProducts() {
-        // This would typically load from API, but products are already rendered server-side
-        // We'll extract product data from the DOM if needed
+
         const productCards = document.querySelectorAll('.card[data-id]');
         products = Array.from(productCards).map(card => {
             return {

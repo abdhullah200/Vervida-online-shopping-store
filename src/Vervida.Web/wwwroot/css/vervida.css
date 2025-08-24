@@ -14,7 +14,7 @@ body {
   min-height: 100vh;
 }
 
-/* Fix modal backdrop issues */
+
 .modal-backdrop {
   background-color: rgba(0, 0, 0, 0.7);
 }
@@ -23,7 +23,6 @@ body {
   opacity: 0.7;
 }
 
-/* Ensure modals are properly styled */
 .modal {
   z-index: 1055;
 }
@@ -82,7 +81,7 @@ body {
 
 .card .card-text,
 .card.card-3d .card-text {
-  color: #ffffff !important;  /* Changed from rgba(255, 255, 255, 0.9) to full white */
+  color: #ffffff !important;  
   font-size: 0.9rem;
   line-height: 1.5;
   margin-bottom: 1rem;
@@ -433,7 +432,7 @@ footer a:hover {
 
 /* Text color fixes */
 .text-muted {
-  color: #ffffff !important;  /* Override all text-muted to white */
+  color: #ffffff !important;  
 }
 
 .lead {
@@ -463,7 +462,7 @@ small {
                0 0 20px var(--clr-primary);
 }
 
-/* Floating elements should not interfere */
+
 .floating-elements {
   position: fixed;
   top: 0;
@@ -474,7 +473,7 @@ small {
   z-index: -1;
 }
 
-/* Ensure main content sits above floating visuals */
+
 main, .container, .row {
   position: relative;
   z-index: 1;
@@ -509,7 +508,7 @@ mark {
   color: #ffffff !important;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
   .card-3d .card:hover,
   .card.card-3d:hover {
@@ -539,7 +538,6 @@ mark {
   animation: fadeInUp 0.6s ease forwards;
 }
 
-/* Fix for proper modal handling */
 .modal.fade .modal-dialog {
   transition: transform 0.3s ease-out;
   transform: translate(0, -50px);
@@ -549,7 +547,7 @@ mark {
   transform: none;
 }
 
-/* Ensure proper z-index stacking */
+
 .modal-backdrop.fade {
   opacity: 0;
 }
@@ -558,7 +556,7 @@ mark {
   opacity: 0.7;
 }
 
-/* Additional text fixes for specific elements */
+
 .container p,
 .container .lead,
 .container small,

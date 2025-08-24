@@ -1,5 +1,4 @@
-﻿// Main site functionality
-(function() {
+﻿(function() {
     'use strict';
 
     // Initialize when DOM is loaded
